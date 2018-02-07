@@ -32,6 +32,8 @@ LuaFileList = {
 	"TimerCallbackManager.lua",
 	"BootScene.lua",
 	"TitleScene.lua",
+	"BattleScene.lua",
+	"ObjectBase.lua",
 	"SceneManager.lua",
 	"DialogManager.lua",
 	"GameManager.lua",

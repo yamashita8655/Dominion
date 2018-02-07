@@ -23,6 +23,7 @@ function SceneManager:Initialize()
 	self.SceneCacheTable = {
 		BootScene.new(),
 		TitleScene.new(),
+		BattleScene.new(),
 		--LoadingScene.new(),
 	}
 

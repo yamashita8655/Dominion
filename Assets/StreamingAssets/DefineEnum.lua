@@ -47,15 +47,7 @@ MoveTypeEnum = {
 SceneNameEnum = {
 	Boot		= 1,
 	Title   	= 2,
-	--Loading = 3,
-	Home		= 3,
-	Custom  	= 4,
-	Quest   	= 5,
-	Option  	= 6,
-	Battle  	= 7,
-	Gacha		= 8,
-	GachaEffect	= 9,
-	GachaResult	= 10,
+	Battle  	= 3,
 }
 
 SkillTypeEnum = {
