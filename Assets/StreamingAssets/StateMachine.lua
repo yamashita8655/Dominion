@@ -57,38 +57,39 @@ function StateMachine.new()
 				self.ManageState = MACHINE_STATE.UPDATE_INIT
 				self.NowState:_OnBeforeInit()
 			end
-		
+
 		elseif self.ManageState == MACHINE_STATE.UPDATE_INIT then
-			isEnd = self.NowState:OnUpdateInit(delta)
+			local isEnd = self.NowState:OnUpdateInit(delta)
 			if isEnd == true then
 				self.ManageState = MACHINE_STATE.AFTER_INIT
 			end
-	
+
 		elseif self.ManageState == MACHINE_STATE.AFTER_INIT then
 			self.ManageState = MACHINE_STATE.BEFORE_MAIN
 			self.NowState:OnAfterInit()
-		
+
 		elseif self.ManageState == MACHINE_STATE.BEFORE_MAIN then
 			self.ManageState = MACHINE_STATE.UPDATE_MAIN
 			self.NowState:OnBeforeMain()
-		
+
 		elseif self.ManageState == MACHINE_STATE.UPDATE_MAIN then
 			self.NowState:OnUpdateMain(delta)
-		
+
 		elseif self.ManageState == MACHINE_STATE.AFTER_MAIN then
 			self.ManageState = MACHINE_STATE.BEFORE_END
 			self.NowState:OnAfterMain()
-		
+
+
 		elseif self.ManageState == MACHINE_STATE.BEFORE_END then
 			self.ManageState = MACHINE_STATE.UPDATE_END
 			self.NowState:OnBeforeEnd()
-		
+
 		elseif self.ManageState == MACHINE_STATE.UPDATE_END then
-			isEnd = self.NowState:OnUpdateEnd(delta)
+			local isEnd = self.NowState:OnUpdateEnd(delta)
 			if isEnd == true then
 				self.ManageState = MACHINE_STATE.AFTER_END
 			end
-		
+
 		elseif self.ManageState == MACHINE_STATE.AFTER_END then
 			self.ManageState = MACHINE_STATE.RELEASE
 			self.NowState:OnAfterEnd()
@@ -98,15 +99,15 @@ function StateMachine.new()
 			if self.NowState:IsPause() ~= true then
 				self.NowState:_OnRelease()
 			end
-			
+
 			self.PrevState = self.State
 			self.State = self.NextState
-			
+
 			-- TODO あとできちんとした処理に修正する
 			self.NowState = self.StateMap[self.State..""]
 		end
 	end
-	
+
 	-- 解放処理.
 	this.Release = function(self)
 		for key, val in pairs(self.StateMap) do
@@ -117,7 +118,7 @@ function StateMachine.new()
 		self.StateMap = {}
 		self.NowState = nil
 	end
-	
+
 	-- ステートの変更.
 	this.ChangeState = function(self, stateType)
 		-- 仮 ここ、直す必要がある。途中で呼び出された場合に、流れがおかしくなる可能性がある
@@ -135,12 +136,12 @@ function StateMachine.new()
 			self.ManageState = MACHINE_STATE.BEFORE_INIT
 		end
 	end
-	
+
 	-- 今居るステートを保存して、戻れるようにしておく.
 	this.ChangeSaveState = function(self)
 		this.changeState(self. SaveState)
 	end
-	
+
 	-- 今のステートを保存して、次回戻ってきた際に初期化処理を呼ばないようにしたステートの変更.
 	this.ChangeStateNowStatePause = function(self, stateType)
 		if (self.ManageState ~= MACHINE_STATE.AFTER_INIT) and
@@ -166,22 +167,22 @@ function StateMachine.new()
 		end
 		self.StateMap[stateType..""] = state-- ステートタイプを文字列変換して、連想配列のキーにする
 	end
-	
+
 	-- ステートの取得.
 	this.GetState = function(self)
 		return self.State
 	end
-	
+
 	-- 一個前のステートの取得.
 	this.GetPrevState = function(self)
 		return self.PrevState
 	end
-	
+
 	-- ステートのセーブ
 	this.SaveState = function(self)
 		self.SaveState = self.State
 	end
-	
+
 	-- セーブしたステートの取得.
 	this.GetSaveState = function(self)
 		return self.SaveState
@@ -191,6 +192,6 @@ function StateMachine.new()
 	this.GetStateBase = function(self)
 		return self.NowState
 	end
-	
+
 	return this
 end

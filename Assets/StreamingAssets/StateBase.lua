@@ -15,7 +15,7 @@ function StateBase.new()
 	this.Initialize = function(self)
 		self.IsPause = false
 	end
-	
+
 	-- 停止中かどうか.
 	this.IsPause = function(self)
 		return self.IsPause
@@ -52,12 +52,12 @@ function StateBase.new()
 	this.OnBeforeInit = function(self)
 		LuaUnityDebugLog("StateBase:OnBeforeInit")
 	end
-	
+
 	-- 初期化更新処理.
 	this.OnUpdateInit = function(self, delta)
 		return true;
 	end
-	
+
 	-- 初期化後処理.
 	this.OnAfterInit = function(self)
 	end
@@ -65,11 +65,11 @@ function StateBase.new()
 	-- メイン前処理.
 	this.OnBeforeMain = function(self)
 	end
-	
+
 	-- メイン更新処理.
 	this.OnUpdateMain = function(self, delta)
 	end
-	
+
 	-- メイン後処理.
 	this.OnAfterMain = function(self)
 	end
@@ -77,12 +77,12 @@ function StateBase.new()
 	-- 終了前処理.
 	this.OnBeforeEnd = function(self)
 	end
-	
+
 	-- 終了更新処理.
 	this.OnUpdateEnd = function(self, delta)
 		return true;
 	end
-	
+
 	-- 終了後処理.
 	this.OnAfterEnd = function(self)
 	end
@@ -90,7 +90,7 @@ function StateBase.new()
 	-- ステート解放時処理.
 	this.OnRelease = function(self)
 	end
-	
+
 	return this
 end
 

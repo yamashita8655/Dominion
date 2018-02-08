@@ -21,13 +21,20 @@ function BattleScene.new()
 		--state = BattleState.new()
 		--state:_OnBeforeInit()
 		--LuaUnityDebugLog("-----End-----")
-		
+
 		-- ステートマシンテスト
-		self.StateMachine = StateMachine.new()
-		self.StateMachine:Initialize()
-		self.StateMachine:AddState(0, BattleState.new())
-		self.StateMachine:AddState(1, BattleSecondState.new())
-		self.StateMachine:ChangeState(0)
+		--self.StateMachine = StateMachine.new()
+		--self.StateMachine:Initialize()
+		--self.StateMachine:AddState(0, BattleState.new())
+		--self.StateMachine:AddState(1, BattleSecondState.new())
+		--self.StateMachine:ChangeState(0)
+
+
+		StateMachineManager.Instance():Initialize()
+		StateMachineManager.Instance():CreateStateMachineMap(STATEMACHINE_NAME.Battle)
+		StateMachineManager.Instance():AddState(STATEMACHINE_NAME.Battle, 0, BattleState.new())
+		StateMachineManager.Instance():AddState(STATEMACHINE_NAME.Battle, 1, BattleSecondState.new())
+		StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, 0)
 	end
 
 
@@ -36,38 +43,38 @@ function BattleScene.new()
 	this.AfterInitialize = function(self)
 		this:SceneBaseAfterInitialize()
 	end
-	
+
 	-- 更新
 	this.SceneBaseUpdate = this.Update
 	this.Update = function(self, deltaTime)
 		this:SceneBaseUpdate(deltaTime)
-		self.StateMachine:Update(deltaTime)
+		--self.StateMachine:Update(deltaTime)
+		StateMachineManager.Instance():Update(STATEMACHINE_NAME.Battle, deltaTime)
 	end
-	
+
 	-- 終了
 	this.SceneBaseEnd = this.End
 	this.End = function(self)
 		this:SceneBaseEnd()
 	end
-	
+
 	-- 有効かどうか
 	this.IsActive = function(self)
 		return self.IsActive
 	end
-	
+
 	-- コールバック
 	this.OnClickButton = function(self, buttonName)
 		if buttonName == "BattleSceneChangeStateButton" then
 			--SceneManager.Instance():ChangeScene(SceneNameEnum.Home)
-			LuaUnityDebugLog(self.StateMachine:GetState())
-			if self.StateMachine:GetState() == 0 then
-				self.StateMachine:ChangeState(1)
+			if StateMachineManager.Instance():GetState(STATEMACHINE_NAME.Battle) == 0 then
+				StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, 1)
 			else
-				self.StateMachine:ChangeState(0)
+				StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, 0)
 			end
 		end
 	end
-	
+
 	return this
 	--return setmetatable(this, {__index = BattleScene})
 end
