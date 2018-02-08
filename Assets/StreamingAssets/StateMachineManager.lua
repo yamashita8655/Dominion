@@ -19,10 +19,10 @@ function StateMachineManager:Initialize()
 end
 
 -- ステートマシンマップの作成.
-function StateMachineManager:CreateStateMachineMap(name)
+function StateMachineManager:CreateStateMachineMap(machineName)
 	local machine = StateMachine.new()
 	machine:Initialize()
-	self.StateMachineMap[name..""] = machine
+	self.StateMachineMap[machineName..""] = machine
 end
 	
 -- ステートマシンの解放.
