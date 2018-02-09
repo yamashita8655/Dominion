@@ -270,6 +270,7 @@ public class UnityUtility : SingletonMonoBehaviour<UnityUtility> {
 		CutinControllerBase2 contoller2 = retObj.GetComponent<CutinControllerBase2>();
 		if (contoller2 != null) {
 			contoller2.Play(animationName, () => {
+				retObj.SetActive(!isAutoActiveFalse);
 				if (callbackMethodName != "") {
 					// Lua側のメイン関数を呼び出す
 					LuaManager.FunctionData data = new LuaManager.FunctionData();

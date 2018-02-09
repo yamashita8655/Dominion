@@ -8,22 +8,27 @@ BattleStatePlayerTurnEffect = {}
 
 -- コンストラクタ
 function BattleStatePlayerTurnEffect.new()
-	local this = StateBase.new()
+	local this = BattleStateBase.new()
 	
 	-- メンバ変数
 
 	-- メソッド定義
-	-- 初期化
-	this.BattleStatePlayerTurnEffectInitialize = this.Initialize
-	this.Initialize = function(self)
-		this:BattleStatePlayerTurnEffectInitialize()
-	end
 	
-	-- 初期化前処理.
-	this.BattleStatePlayerTurnEffectOnBeforeInit = this.OnBeforeInit
-	this.OnBeforeInit = function(self)
-		self:BattleStatePlayerTurnEffectOnBeforeInit()
-		LuaUnityDebugLog("BattleStatePlayerTurnEffect:OnBeforeInit");
+	-- 初期化処理.
+	this.BattleStateOnAfterInit = this.OnAfterInit
+	this.OnAfterInit = function(self)
+		self:BattleStateOnAfterInit()
+		LuaUnityDebugLog("-----BattleStatePlayerTurnEffect-----")
+		-- エフェクト再生
+		CallbackManager.Instance():AddCallback(
+			"PlayerTurnEffect",
+			{self},
+			function(arg, unityArg)
+				local self = arg[1]
+				StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.PlayerTurnMain)
+			end
+		)
+		LuaPlayAnimator("PlayerTurnStartEffect", "Play", false, true, "LuaCallback", "PlayerTurnEffect")
 	end
 
 	return this

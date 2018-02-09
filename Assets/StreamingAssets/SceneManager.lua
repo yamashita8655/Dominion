@@ -35,7 +35,6 @@ end
 
 -- シーンの切り替え
 function SceneManager:ChangeScene(sceneNameEnum) 
-	LuaUnityDebugLog("ChangeScene"..sceneNameEnum)
 	CallbackManager.Instance():AddCallback("SceneManager_CallbackStartFade", {self, sceneNameEnum}, self.CallbackFadeIn)
 	LuaPlayAnimator("FadeObject", "FadeIn", false, false, "LuaCallback", "SceneManager_CallbackStartFade")
 end
@@ -62,12 +61,14 @@ end
 
 -- フェードあけた後の、初期化
 function SceneManager.AfterInitialize(argList, unityArg) 
+	LuaUnityDebugLog("-----AfterInitialize-----")
 	local self			= argList[1]
 	local sceneNameEnum	= argList[2]
 	
 	local scene = self.SceneCacheTable[sceneNameEnum]
 	scene:AfterInitialize()
-	--LuaSetActive("FadeObject", false)
+	-- 再生時のアクティブTRUEは、バイナリ側で行っている
+	LuaSetActive("FadeObject", false)
 end
 
 -- ボタンイベント検知

@@ -8,22 +8,17 @@ BattleStateEnemyTurnMain = {}
 
 -- コンストラクタ
 function BattleStateEnemyTurnMain.new()
-	local this = StateBase.new()
+	local this = BattleStateBase.new()
 	
 	-- メンバ変数
 
 	-- メソッド定義
-	-- 初期化
-	this.BattleStateEnemyTurnMainInitialize = this.Initialize
-	this.Initialize = function(self)
-		this:BattleStateEnemyTurnMainInitialize()
-	end
 	
 	-- 初期化前処理.
-	this.BattleStateEnemyTurnMainOnBeforeInit = this.OnBeforeInit
-	this.OnBeforeInit = function(self)
-		self:BattleStateEnemyTurnMainOnBeforeInit()
-		LuaUnityDebugLog("BattleStateEnemyTurnMain:OnBeforeInit");
+	this.BattleStateOnAfterInit = this.OnAfterInit
+	this.OnAfterInit = function(self)
+		self:BattleStateOnAfterInit()
+		StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.PlayerTurnEffect)
 	end
 
 	return this

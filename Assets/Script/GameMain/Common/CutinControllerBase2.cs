@@ -45,7 +45,13 @@ public class CutinControllerBase2 : MonoBehaviour
 	/// </summary>
 	public void Play(string stateName, Action callback)
 	{
+		// アクティブにしておかないと、コルーチンが反応しなくなる
 		EffectRootObject.SetActive(true);
+		StartCoroutine(CoPlay(stateName, callback));
+	}
+
+	private IEnumerator CoPlay(string stateName, Action callback) {
+		yield return null;	// 1フレーム待たないと、アクティブされていない物とみなされる
 //		BaseAnimation.Play(stateName);
 //		BaseAnimation.ResetTrigger(stateName);
 		EndCallback = callback;

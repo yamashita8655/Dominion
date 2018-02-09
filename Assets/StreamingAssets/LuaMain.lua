@@ -39,6 +39,7 @@ LuaFileList = {
 	"EnemyCharacter.lua",
 	"StateMachineManager_define.lua",
 	"StateBase.lua",
+	"BattleStateBase.lua",
 	"StateMachine.lua",
 	"StateMachineManager.lua",
 	"BattleStateDefine.lua",

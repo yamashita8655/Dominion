@@ -24,11 +24,12 @@ function BootScene.new()
 		this:SceneBaseAfterInitialize()
 		--SceneManager.Instance():ChangeScene(SceneNameEnum.Quest)
 		--SceneManager.Instance():ChangeScene(SceneNameEnum.Title)
-		SceneManager.Instance():ChangeScene(SceneNameEnum.Battle)
+		--SceneManager.Instance():ChangeScene(SceneNameEnum.Battle)
 		--SceneManager.Instance():ChangeScene(SceneNameEnum.Custom)
 		--SceneManager.Instance():ChangeScene(SceneNameEnum.Gacha)
 		--SceneManager.Instance():ChangeScene(SceneNameEnum.Home)
 --		FileIOManager.Instance():Load(this.EndSaveFileLoadCallback)
+		TimerCallbackManager:AddCallback({}, self.SceneChange, 1) 
 	end
 	
 	-- 更新
@@ -46,6 +47,12 @@ function BootScene.new()
 	-- 有効かどうか
 	this.IsActive = function(self)
 		return self.IsActive
+	end
+	
+	-- シーン変更
+	-- AfterInitializeで行っていない理由は、同一フレーム上で、FadeObjectのアクティブのオンオフを行ってしまう、正常に動かなくなってしまうから
+	this.SceneChange = function()
+		SceneManager.Instance():ChangeScene(SceneNameEnum.Battle)
 	end
 	
 	-- セーブファイル読み込み終了時コールバック処理
