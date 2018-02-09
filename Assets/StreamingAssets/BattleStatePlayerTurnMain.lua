@@ -23,7 +23,14 @@ function BattleStatePlayerTurnMain.new()
 	-- クリックイベントの処理
 	this.BattleStateOnClickButton = this.OnClickButton
 	this.OnClickButton = function(self, buttonName)
+		-- ターン終了ボタン
 		if buttonName == "BattleSceneTurnEndButton" then
+			StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.EnemyTurnEffect)
+		end
+		
+		-- 仮の攻撃ボタン。本来は、カードをドラッグして攻撃
+		if buttonName == "BattleScenePlayerAttackButton" then
+			LuaUnityDebugLog("-----ATTACK-----")
 			StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.EnemyTurnEffect)
 		end
 	end

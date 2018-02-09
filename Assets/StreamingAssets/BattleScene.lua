@@ -18,11 +18,22 @@ function BattleScene.new()
 		-- オブジェクトの初期設定
 		if self.IsInitialized == false then
 			-- 操作するオブジェクトを探して登録
+			-- エフェクトをアタッチするルート
 			LuaFindObject("BattleSceneEffectRoot")
+
+			-- ターン開始時のエフェクト
 			LuaLoadPrefabAfter("battlescene", "PlayerTurnStartEffect", "PlayerTurnStartEffect", "BattleSceneEffectRoot")
 			LuaSetActive("PlayerTurnStartEffect", false)
 			LuaLoadPrefabAfter("battlescene", "EnemyTurnStartEffect", "EnemyTurnStartEffect", "BattleSceneEffectRoot")
 			LuaSetActive("EnemyTurnStartEffect", false)
+			
+			-- 各プレイヤーのゲージとHPテキスト
+			LuaFindObject("BattleScenePlayerHpGauge")
+			LuaFindObject("BattleScenePlayerNowHpText")
+			LuaFindObject("BattleScenePlayerMaxHpText")
+			LuaFindObject("BattleSceneEnemyHpGauge")
+			LuaFindObject("BattleSceneEnemyNowHpText")
+			LuaFindObject("BattleSceneEnemyMaxHpText")
 			
 			-- ステートマシンマネージャテスト
 			StateMachineManager.Instance():Initialize()
