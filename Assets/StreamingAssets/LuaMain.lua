@@ -37,6 +37,7 @@ LuaFileList = {
 	"CharacterBase.lua",
 	"PlayerCharacter.lua",
 	"EnemyCharacter.lua",
+	"BattleSceneCharacterDataManager.lua",
 	"StateMachineManager_define.lua",
 	"StateBase.lua",
 	"BattleStateBase.lua",

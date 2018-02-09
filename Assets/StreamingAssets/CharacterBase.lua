@@ -30,10 +30,16 @@ function CharacterBase.new()
 	-- 現在HP上書き
 	this.SetNowHp = function(self, value)
 		self.NowHp = value
+		if self.NowHp < 0 then
+			self.NowHp = 0
+		end
 	end
 	-- 現在HP加算
 	this.AddNowHp = function(self, addValue)
 		self.NowHp = self.NowHp + addValue
+		if self.NowHp < 0 then
+			self.NowHp = 0
+		end
 	end
 	
 	-- 最大HP取得
@@ -43,10 +49,16 @@ function CharacterBase.new()
 	-- 最大HP上書き
 	this.SetMaxHp = function(self, value)
 		self.MaxHp = value
+		if self.MaxHp < 0 then
+			self.MaxHp = 0
+		end
 	end
 	-- 最大HP加算
 	this.AddMaxHp = function(self, addValue)
 		self.MaxHp = self.MaxHp + addValue
+		if self.MaxHp < 0 then
+			self.MaxHp = 0
+		end
 	end
 	
 	-- サンプル

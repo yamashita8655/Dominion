@@ -31,6 +31,12 @@ function BattleStatePlayerTurnMain.new()
 		-- 仮の攻撃ボタン。本来は、カードをドラッグして攻撃
 		if buttonName == "BattleScenePlayerAttackButton" then
 			LuaUnityDebugLog("-----ATTACK-----")
+			local enemy = BattleSceneCharacterDataManager.Instance():GetEnemyCharacter()
+			enemy:AddNowHp(-10)
+			LuaSetText("BattleSceneEnemyNowHpText", enemy:GetNowHp())
+			LuaSetText("BattleSceneEnemyMaxHpText", enemy:GetMaxHp())
+			LuaSetScale("BattleSceneEnemyHpGauge", enemy:GetNowHp()/enemy:GetMaxHp(), 1, 1)
+
 			StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.EnemyTurnEffect)
 		end
 	end

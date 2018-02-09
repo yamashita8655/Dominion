@@ -18,6 +18,13 @@ function BattleStateEnemyTurnMain.new()
 	this.BattleStateOnAfterInit = this.OnAfterInit
 	this.OnAfterInit = function(self)
 		self:BattleStateOnAfterInit()
+		
+		local player = BattleSceneCharacterDataManager.Instance():GetPlayerCharacter()
+		player:AddNowHp(-10)
+		LuaSetText("BattleScenePlayerNowHpText", player:GetNowHp())
+		LuaSetText("BattleScenePlayerMaxHpText", player:GetMaxHp())
+		LuaSetScale("BattleScenePlayerHpGauge", player:GetNowHp()/player:GetMaxHp(), 1, 1)
+		
 		StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.PlayerTurnEffect)
 	end
 

@@ -17,6 +17,17 @@ function BattleScene.new()
 
 		-- オブジェクトの初期設定
 		if self.IsInitialized == false then
+			-- マネージャ初期化
+			BattleSceneCharacterDataManager.Instance():Initialize()
+
+			local player = PlayerCharacter.new()
+			player:Initialize(100, 100, Vector3.new(0, 0, 0), Vector3.new(0, 0, 0), "Player", 256, 256)
+			local enemy = EnemyCharacter.new()
+			enemy:Initialize(100, 100, Vector3.new(0, 0, 0), Vector3.new(0, 0, 0), "Player", 256, 256)
+			
+			BattleSceneCharacterDataManager.Instance():SetPlayerCharacter(player)
+			BattleSceneCharacterDataManager.Instance():SetEnemyCharacter(enemy)
+
 			-- 操作するオブジェクトを探して登録
 			-- エフェクトをアタッチするルート
 			LuaFindObject("BattleSceneEffectRoot")
@@ -34,6 +45,13 @@ function BattleScene.new()
 			LuaFindObject("BattleSceneEnemyHpGauge")
 			LuaFindObject("BattleSceneEnemyNowHpText")
 			LuaFindObject("BattleSceneEnemyMaxHpText")
+
+			LuaSetText("BattleScenePlayerNowHpText", player:GetNowHp())
+			LuaSetText("BattleScenePlayerMaxHpText", player:GetMaxHp())
+			LuaSetText("BattleSceneEnemyNowHpText", enemy:GetNowHp())
+			LuaSetText("BattleSceneEnemyMaxHpText", enemy:GetMaxHp())
+			LuaSetScale("BattleScenePlayerHpGauge", player:GetNowHp()/player:GetMaxHp(), 1, 1)
+			LuaSetScale("BattleSceneEnemyHpGauge", enemy:GetNowHp()/enemy:GetMaxHp(), 1, 1)
 			
 			-- ステートマシンマネージャテスト
 			StateMachineManager.Instance():Initialize()
