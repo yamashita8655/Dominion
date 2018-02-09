@@ -2,28 +2,28 @@
 
 -- クラス定義
 -- キャラ基本クラス
-BattleState = {}
+BattleStatePlayerTurnEffect = {}
 
 -- メソッド定義
 
 -- コンストラクタ
-function BattleState.new()
+function BattleStatePlayerTurnEffect.new()
 	local this = StateBase.new()
 	
 	-- メンバ変数
 
 	-- メソッド定義
 	-- 初期化
-	this.BattleStateInitialize = this.Initialize
+	this.BattleStatePlayerTurnEffectInitialize = this.Initialize
 	this.Initialize = function(self)
-		this:BattleStateInitialize()
+		this:BattleStatePlayerTurnEffectInitialize()
 	end
 	
 	-- 初期化前処理.
-	this.BattleStateOnBeforeInit = this.OnBeforeInit
+	this.BattleStatePlayerTurnEffectOnBeforeInit = this.OnBeforeInit
 	this.OnBeforeInit = function(self)
-		self:BattleStateOnBeforeInit()
-		LuaUnityDebugLog("BattleState:OnBeforeInit");
+		self:BattleStatePlayerTurnEffectOnBeforeInit()
+		LuaUnityDebugLog("BattleStatePlayerTurnEffect:OnBeforeInit");
 	end
 
 	return this

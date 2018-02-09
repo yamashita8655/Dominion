@@ -2,28 +2,28 @@
 
 -- クラス定義
 -- キャラ基本クラス
-BattleSecondState = {}
+BattleStatePlayerTurnMain = {}
 
 -- メソッド定義
 
 -- コンストラクタ
-function BattleSecondState.new()
+function BattleStatePlayerTurnMain.new()
 	local this = StateBase.new()
 	
 	-- メンバ変数
 
 	-- メソッド定義
 	-- 初期化
-	this.BattleStateInitialize = this.Initialize
+	this.BattleStatePlayerTurnMainInitialize = this.Initialize
 	this.Initialize = function(self)
-		this:BattleStateInitialize()
+		this:BattleStatePlayerTurnMainInitialize()
 	end
 	
 	-- 初期化前処理.
-	this.BattleSecondStateOnBeforeInit = this.OnBeforeInit
+	this.BattleStatePlayerTurnMainOnBeforeInit = this.OnBeforeInit
 	this.OnBeforeInit = function(self)
-		self:BattleSecondStateOnBeforeInit()
-		LuaUnityDebugLog("BattleSecondState:OnBeforeInit")
+		self:BattleStatePlayerTurnMainOnBeforeInit()
+		LuaUnityDebugLog("BattleStatePlayerTurnMain:OnBeforeInit");
 	end
 
 	return this

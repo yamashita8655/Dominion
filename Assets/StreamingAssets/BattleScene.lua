@@ -16,25 +16,15 @@ function BattleScene.new()
 		this:SceneBaseInitialize()
 		LuaChangeScene("Battle", "MainCanvas")
 
-		-- バーチャルテスト的な
-		--LuaUnityDebugLog("-----Start-----")
-		--state = BattleState.new()
-		--state:_OnBeforeInit()
-		--LuaUnityDebugLog("-----End-----")
-
-		-- ステートマシンテスト
-		--self.StateMachine = StateMachine.new()
-		--self.StateMachine:Initialize()
-		--self.StateMachine:AddState(0, BattleState.new())
-		--self.StateMachine:AddState(1, BattleSecondState.new())
-		--self.StateMachine:ChangeState(0)
-
-
+		-- ステートマシンマネージャテスト
 		StateMachineManager.Instance():Initialize()
 		StateMachineManager.Instance():CreateStateMachineMap(STATEMACHINE_NAME.Battle)
-		StateMachineManager.Instance():AddState(STATEMACHINE_NAME.Battle, 0, BattleState.new())
-		StateMachineManager.Instance():AddState(STATEMACHINE_NAME.Battle, 1, BattleSecondState.new())
-		StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, 0)
+		StateMachineManager.Instance():AddState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.PlayerTurnEffect, BattleStatePlayerTurnEffect.new())
+		StateMachineManager.Instance():AddState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.PlayerTurnMain, BattleStatePlayerTurnMain.new())
+		StateMachineManager.Instance():AddState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.EnemyTurnEffect, BattleStateEnemyTurnEffect.new())
+		StateMachineManager.Instance():AddState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.EnemyTurnMain, BattleStateEnemyTurnMain.new())
+		
+		StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.PlayerTurnEffect)
 	end
 
 
