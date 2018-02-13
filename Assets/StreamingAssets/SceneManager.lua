@@ -108,3 +108,7 @@ end
 function SceneManager:OnMouseUp(touchx, touchy) 
 	self.CurrentScene:OnMouseUp(touchx, touchy)
 end
+
+function SceneManager:GetCurrentScene() 
+	return self.CurrentScene
+end

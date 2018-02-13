@@ -241,6 +241,24 @@ public class UnityUtility : SingletonMonoBehaviour<UnityUtility> {
 		
 		return 0;
 	}
+
+	// ベースオブジェクトの子供のオブジェクトを探して、Findリストに登録する
+	[MonoPInvokeCallbackAttribute(typeof(LuaManager.DelegateLuaBindFunction))]
+	public static int UnityFindChildrenObject(IntPtr luaState)
+	{
+		uint res;
+		IntPtr res_s = NativeMethods.lua_tolstring(luaState, 1, out res);
+		string parentObjectName = Marshal.PtrToStringAnsi(res_s);
+
+		res_s = NativeMethods.lua_tolstring(luaState, 2, out res);
+		string childrenObjectName = Marshal.PtrToStringAnsi(res_s);
+
+		res_s = NativeMethods.lua_tolstring(luaState, 3, out res);
+		string keyName = Marshal.PtrToStringAnsi(res_s);
+		GameObjectCacheManager.Instance.FindChildrenGameObject(parentObjectName, childrenObjectName, keyName);
+
+		return 0;
+	}
 	
 	// Animationを再生する
 	[MonoPInvokeCallbackAttribute(typeof(LuaManager.DelegateLuaBindFunction))]
@@ -1036,6 +1054,11 @@ public class UnityUtility : SingletonMonoBehaviour<UnityUtility> {
 		LuaManager.DelegateLuaBindFunction LuaUnityFindObject = new LuaManager.DelegateLuaBindFunction (UnityFindObject);
 		IntPtr LuaUnityFindObjectIntPtr = Marshal.GetFunctionPointerForDelegate(LuaUnityFindObject);
 		LuaManager.Instance.AddUnityFunction(scriptName, "UnityFindObject", LuaUnityFindObjectIntPtr, LuaUnityFindObject);
+
+		// 子供オブジェクトの検索
+		LuaManager.DelegateLuaBindFunction LuaUnityFindChildrenObject = new LuaManager.DelegateLuaBindFunction (UnityFindChildrenObject);
+		IntPtr LuaUnityFindChildrenObjectIntPtr = Marshal.GetFunctionPointerForDelegate(LuaUnityFindChildrenObject);
+		LuaManager.Instance.AddUnityFunction(scriptName, "UnityFindChildrenObject", LuaUnityFindChildrenObjectIntPtr, LuaUnityFindChildrenObject);
 		
 		// テキストの設定
 		LuaManager.DelegateLuaBindFunction LuaUnitySetText = new LuaManager.DelegateLuaBindFunction (UnitySetText);

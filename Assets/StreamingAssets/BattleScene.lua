@@ -9,6 +9,11 @@ function BattleScene.new()
 
 	this.StateMachine = nil
 
+	-- 外部(主にステートマシンに対して)公開用
+	this.PlayerTurnStartEffectName = ""
+	this.EnemyTurnStartEffectName = ""
+	this.BattleSceneName = "battlescene"
+
 	-- メソッド定義
 	-- 初期化
 	this.SceneBaseInitialize = this.Initialize
@@ -19,6 +24,11 @@ function BattleScene.new()
 		if self.IsInitialized == false then
 			-- マネージャ初期化
 			BattleSceneCharacterDataManager.Instance():Initialize()
+			PrefabManager.Instance():Initialize()
+			DamageNumberEffectManager.Instance():Initialize()
+
+			-- ダメージ数値作成
+			DamageNumberEffectManager.Instance():CreateDamageEffect(self.BattleSceneName, "BattleSceneEffectRoot")
 
 			local player = PlayerCharacter.new()
 			player:Initialize(100, 100, Vector3.new(0, 0, 0), Vector3.new(0, 0, 0), "Player", 256, 256)
@@ -33,10 +43,10 @@ function BattleScene.new()
 			LuaFindObject("BattleSceneEffectRoot")
 
 			-- ターン開始時のエフェクト
-			LuaLoadPrefabAfter("battlescene", "PlayerTurnStartEffect", "PlayerTurnStartEffect", "BattleSceneEffectRoot")
-			LuaSetActive("PlayerTurnStartEffect", false)
-			LuaLoadPrefabAfter("battlescene", "EnemyTurnStartEffect", "EnemyTurnStartEffect", "BattleSceneEffectRoot")
-			LuaSetActive("EnemyTurnStartEffect", false)
+			self.PlayerTurnStartEffectName = PrefabManager.Instance():LoadPrefabObject(self.BattleSceneName, "PlayerTurnStartEffect", "BattleSceneEffectRoot")
+			LuaSetActive(self.PlayerTurnStartEffectName, false)
+			self.EnemyTurnStartEffectName = PrefabManager.Instance():LoadPrefabObject(self.BattleSceneName, "EnemyTurnStartEffect", "BattleSceneEffectRoot")
+			LuaSetActive(self.EnemyTurnStartEffectName, false)
 			
 			-- 各プレイヤーのゲージとHPテキスト
 			LuaFindObject("BattleScenePlayerHpGauge")
@@ -96,16 +106,20 @@ function BattleScene.new()
 
 	-- コールバック
 	this.OnClickButton = function(self, buttonName)
-		local state = StateMachineManager.Instance():GetStateBase(STATEMACHINE_NAME.Battle)
-		state:OnClickButton(buttonName)
-		--if buttonName == "BattleSceneChangeStateButton" then
-		--	--SceneManager.Instance():ChangeScene(SceneNameEnum.Home)
-		--	if StateMachineManager.Instance():GetState(STATEMACHINE_NAME.Battle) == 0 then
-		--		StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, 1)
-		--	else
-		--		StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, 0)
-		--	end
-		--end
+		-- TODO 一旦無効化。本来は有効
+		--local state = StateMachineManager.Instance():GetStateBase(STATEMACHINE_NAME.Battle)
+		--state:OnClickButton(buttonName)
+		
+		-- TODO 仮
+		if buttonName == "BattleSceneTurnEndButton" then
+			DamageNumberEffectManager.Instance():Play(
+				"BattleSceneEffectRoot",
+				10,
+				function()
+					LuaUnityDebugLog("-----CALL BACK-----")
+				end
+			)
+		end
 	end
 
 	return this

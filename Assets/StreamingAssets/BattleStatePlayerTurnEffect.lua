@@ -19,16 +19,17 @@ function BattleStatePlayerTurnEffect.new()
 	this.OnAfterInit = function(self)
 		self:BattleStateOnAfterInit()
 		LuaUnityDebugLog("-----BattleStatePlayerTurnEffect-----")
+		local scene = SceneManager.Instance():GetCurrentScene()
 		-- エフェクト再生
 		CallbackManager.Instance():AddCallback(
-			"PlayerTurnEffect",
+			"PlayerEffectTurnCallback",
 			{self},
 			function(arg, unityArg)
 				local self = arg[1]
 				StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.PlayerTurnMain)
 			end
 		)
-		LuaPlayAnimator("PlayerTurnStartEffect", "Play", false, true, "LuaCallback", "PlayerTurnEffect")
+		LuaPlayAnimator(scene.PlayerTurnStartEffectName, "Play", false, true, "LuaCallback", "PlayerEffectTurnCallback")
 	end
 
 	return this

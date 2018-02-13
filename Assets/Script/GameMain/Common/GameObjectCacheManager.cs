@@ -35,6 +35,21 @@ public class GameObjectCacheManager : Singleton<GameObjectCacheManager>
 		return output;
 	}
 	
+	public GameObject FindChildrenGameObject(string parentObjectName, string childObjectName, string keyName) {
+		GameObject output = null;
+		if (InstantiateGameObjectCacheDict.TryGetValue(keyName, out output)) {
+			return output;
+		}
+		
+		if (InstantiateGameObjectCacheDict.TryGetValue(parentObjectName, out output) == false) {
+			return null;
+		}
+
+		Transform child = output.transform.Find(childObjectName);
+		InstantiateGameObjectCacheDict.Add(keyName, child.gameObject);
+		return child.gameObject;
+	}
+	
 	public GameObject LoadGameObject(string loadPath, string objectName) {
 		GameObject output = null;
 		GameObject obj = null;

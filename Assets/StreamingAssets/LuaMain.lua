@@ -38,6 +38,8 @@ LuaFileList = {
 	"PlayerCharacter.lua",
 	"EnemyCharacter.lua",
 	"BattleSceneCharacterDataManager.lua",
+	"PrefabManager.lua",
+	"DamageNumberEffectManager.lua",
 	"StateMachineManager_define.lua",
 	"StateBase.lua",
 	"BattleStateBase.lua",
@@ -215,6 +217,13 @@ end
 --結果：Unity側のヒエラルキオブジェクトディクショナリに登録されて、アクセス可能になる
 function LuaFindObject(hierarchyName)
 	UnityFindObject(hierarchyName)
+end
+
+--オブジェクト検索
+--引数：ヒエラルキに登録しているオブジェクト名と、その子供と、その子供を登録する名前
+--結果：子供が、Luaで管理する名前でUnity側のヒエラルキオブジェクトディクショナリに登録されて、アクセス可能になる
+function LuaFindChildrenObject(hierarchyName, childName, keyName)
+	UnityFindChildrenObject(hierarchyName, childName, keyName)
 end
 
 --テキスト設定

@@ -20,14 +20,15 @@ function BattleStateEnemyTurnEffect.new()
 		self:BattleStateOnAfterInit()
 		-- エフェクト再生
 		CallbackManager.Instance():AddCallback(
-			"EnemyTurnEffect",
+			"EnemyTurnEffectCallback",
 			{self},
 			function(arg, unityArg)
 				local self = arg[1]
 				StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.EnemyTurnMain)
 			end
 		)
-		LuaPlayAnimator("EnemyTurnStartEffect", "Play", false, true, "LuaCallback", "EnemyTurnEffect")
+		local scene = SceneManager.Instance():GetCurrentScene()
+		LuaPlayAnimator(scene.EnemyTurnStartEffectName, "Play", false, true, "LuaCallback", "EnemyTurnEffectCallback")
 	end
 
 	return this
