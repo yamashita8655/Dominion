@@ -32,10 +32,19 @@ function BattleStatePlayerTurnMain.new()
 		if buttonName == "BattleScenePlayerAttackButton" then
 			LuaUnityDebugLog("-----ATTACK-----")
 			local enemy = BattleSceneCharacterDataManager.Instance():GetEnemyCharacter()
-			enemy:AddNowHp(-10)
+			local damage = 10
+			enemy:AddNowHp(-damage)
 			LuaSetText("BattleSceneEnemyNowHpText", enemy:GetNowHp())
 			LuaSetText("BattleSceneEnemyMaxHpText", enemy:GetMaxHp())
 			LuaSetScale("BattleSceneEnemyHpGauge", enemy:GetNowHp()/enemy:GetMaxHp(), 1, 1)
+
+			-- ダメージ表示
+			DamageNumberEffectManager.Instance():Play(
+				"BattleSceneEnemyImage",
+				damage,
+				function()
+				end
+			)
 
 			StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.EnemyTurnEffect)
 		end

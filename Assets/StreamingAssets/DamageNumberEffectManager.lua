@@ -41,6 +41,7 @@ function DamageNumberEffectManager:Play(parentName, damageValue, endCallback)
 			local name = self.PrefabName..i
 			local textName = self.TextObjectName..i
 			LuaSetText(self.TextObjectName..i, damageValue)
+			LuaSetParent(name, parentName)
 			self.SpawnFlagList[i] = true
 			local index = i
 			TimerCallbackManager:AddCallback(

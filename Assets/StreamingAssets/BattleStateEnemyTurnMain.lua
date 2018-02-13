@@ -20,10 +20,19 @@ function BattleStateEnemyTurnMain.new()
 		self:BattleStateOnAfterInit()
 		
 		local player = BattleSceneCharacterDataManager.Instance():GetPlayerCharacter()
-		player:AddNowHp(-10)
+		local damage = 10
+		player:AddNowHp(-damage)
 		LuaSetText("BattleScenePlayerNowHpText", player:GetNowHp())
 		LuaSetText("BattleScenePlayerMaxHpText", player:GetMaxHp())
 		LuaSetScale("BattleScenePlayerHpGauge", player:GetNowHp()/player:GetMaxHp(), 1, 1)
+			
+		-- ダメージ表示
+		DamageNumberEffectManager.Instance():Play(
+			"BattleScenePlayerImage",
+			damage,
+			function()
+			end
+		)
 		
 		StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.PlayerTurnEffect)
 	end

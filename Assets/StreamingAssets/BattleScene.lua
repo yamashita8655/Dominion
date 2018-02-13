@@ -49,9 +49,11 @@ function BattleScene.new()
 			LuaSetActive(self.EnemyTurnStartEffectName, false)
 			
 			-- 各プレイヤーのゲージとHPテキスト
+			LuaFindObject("BattleScenePlayerImage")
 			LuaFindObject("BattleScenePlayerHpGauge")
 			LuaFindObject("BattleScenePlayerNowHpText")
 			LuaFindObject("BattleScenePlayerMaxHpText")
+			LuaFindObject("BattleSceneEnemyImage")
 			LuaFindObject("BattleSceneEnemyHpGauge")
 			LuaFindObject("BattleSceneEnemyNowHpText")
 			LuaFindObject("BattleSceneEnemyMaxHpText")
@@ -107,19 +109,19 @@ function BattleScene.new()
 	-- コールバック
 	this.OnClickButton = function(self, buttonName)
 		-- TODO 一旦無効化。本来は有効
-		--local state = StateMachineManager.Instance():GetStateBase(STATEMACHINE_NAME.Battle)
-		--state:OnClickButton(buttonName)
+		local state = StateMachineManager.Instance():GetStateBase(STATEMACHINE_NAME.Battle)
+		state:OnClickButton(buttonName)
 		
-		-- TODO 仮
-		if buttonName == "BattleSceneTurnEndButton" then
-			DamageNumberEffectManager.Instance():Play(
-				"BattleSceneEffectRoot",
-				10,
-				function()
-					LuaUnityDebugLog("-----CALL BACK-----")
-				end
-			)
-		end
+		---- TODO 仮
+		--if buttonName == "BattleSceneTurnEndButton" then
+		--	DamageNumberEffectManager.Instance():Play(
+		--		"BattleSceneEffectRoot",
+		--		10,
+		--		function()
+		--			LuaUnityDebugLog("-----CALL BACK-----")
+		--		end
+		--	)
+		--end
 	end
 
 	return this
