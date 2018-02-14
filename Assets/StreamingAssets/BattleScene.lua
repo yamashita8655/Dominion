@@ -26,12 +26,28 @@ function BattleScene.new()
 			BattleSceneCharacterDataManager.Instance():Initialize()
 			PrefabManager.Instance():Initialize()
 			DamageNumberEffectManager.Instance():Initialize()
+			BattleCardDeckManager.Instance():Initialize()
+
+			-- TODO 仮でデッキ構築してみる
+			for i = 1, 10 do
+				local uid = BattleCardDeckManager.Instance():IssueUniqueId()
+				local card = CardBase.new(
+					uid,
+					CardConfig.CardData_0001,
+					Vector3.new(0, 0, 0),
+					Vector3.new(0, 0, 0),
+					"Card"..i,
+					256,
+					256
+				)
+				BattleCardDeckManager.Instance():AddCardToDeckList(card)
+			end
 
 			-- ダメージ数値作成
 			DamageNumberEffectManager.Instance():CreateDamageEffect(self.BattleSceneName, "BattleSceneEffectRoot")
 
 			local player = PlayerCharacter.new()
-			player:Initialize(100, 100, Vector3.new(0, 0, 0), Vector3.new(0, 0, 0), "Player", 256, 256)
+			player:Initialize(3, 3, 100, 100, Vector3.new(0, 0, 0), Vector3.new(0, 0, 0), "Player", 256, 256)
 			local enemy = EnemyCharacter.new()
 			enemy:Initialize(100, 100, Vector3.new(0, 0, 0), Vector3.new(0, 0, 0), "Player", 256, 256)
 			
@@ -57,6 +73,10 @@ function BattleScene.new()
 			LuaFindObject("BattleSceneEnemyHpGauge")
 			LuaFindObject("BattleSceneEnemyNowHpText")
 			LuaFindObject("BattleSceneEnemyMaxHpText")
+
+			-- コスト設定
+			LuaFindObject("BattleScenePlayerNowCostText")
+			LuaFindObject("BattleScenePlayerMaxCostText")
 
 			LuaSetText("BattleScenePlayerNowHpText", player:GetNowHp())
 			LuaSetText("BattleScenePlayerMaxHpText", player:GetMaxHp())
@@ -108,20 +128,14 @@ function BattleScene.new()
 
 	-- コールバック
 	this.OnClickButton = function(self, buttonName)
-		-- TODO 一旦無効化。本来は有効
 		local state = StateMachineManager.Instance():GetStateBase(STATEMACHINE_NAME.Battle)
 		state:OnClickButton(buttonName)
-		
-		---- TODO 仮
-		--if buttonName == "BattleSceneTurnEndButton" then
-		--	DamageNumberEffectManager.Instance():Play(
-		--		"BattleSceneEffectRoot",
-		--		10,
-		--		function()
-		--			LuaUnityDebugLog("-----CALL BACK-----")
-		--		end
-		--	)
-		--end
+
+		-- TODO アクセスチェック
+		--LuaUnityDebugLog(CardConfig.CardData_0001.Id)
+		--LuaUnityDebugLog(CardConfig.CardData_0001.CardColor)
+		--LuaUnityDebugLog(CardConfig.CardData_0001.CardTypes[1])
+		--LuaUnityDebugLog(CardConfig.CardData_0001.CardTypeValues[1])
 	end
 
 	return this

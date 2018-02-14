@@ -46,6 +46,12 @@ function BattleStatePlayerTurnMain.new()
 				end
 			)
 
+			-- コストを減らしてみる
+			local player = BattleSceneCharacterDataManager.Instance():GetPlayerCharacter()
+			local nowCost = player:GetNowCost()
+			nowCost = nowCost - 1
+			LuaSetText("BattleScenePlayerNowCostText", nowCost)
+
 			StateMachineManager.Instance():ChangeState(STATEMACHINE_NAME.Battle, BATTLE_STATE_DEFINE.EnemyTurnEffect)
 		end
 	end

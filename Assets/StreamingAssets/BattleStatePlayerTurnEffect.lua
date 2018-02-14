@@ -30,6 +30,14 @@ function BattleStatePlayerTurnEffect.new()
 			end
 		)
 		LuaPlayAnimator(scene.PlayerTurnStartEffectName, "Play", false, true, "LuaCallback", "PlayerEffectTurnCallback")
+
+		-- コストのリセット
+		local player = BattleSceneCharacterDataManager.Instance():GetPlayerCharacter()
+		player:ResetCost()
+		local nowCost = player:GetNowCost()
+		local maxCost = player:GetMaxCost()
+		LuaSetText("BattleScenePlayerNowCostText", nowCost)
+		LuaSetText("BattleScenePlayerMaxCostText", maxCost)
 	end
 
 	return this
